@@ -1,4 +1,4 @@
-![Screenshot 1](awewa.png)
+![Screenshot](https://raw.githubusercontent.com/cyvvore/minimal-hyprland/main/screenshot.png)
 
 Current setup / Fork of simple hyprland (https://github.com/gaurav210233/simple-hyprland)
 
