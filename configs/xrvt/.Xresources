@@ -1,0 +1,58 @@
+*.font: xft:cozette-13
+
+!! Colorscheme
+
+! special
+*.foreground:   #afafaf
+*.background:   #000000
+*.cursorColor:  #dc7ed7
+
+! black
+*.color0:       #1c1c1c
+*.color8:       #41464a
+
+! red
+*.color1:       #365b73
+*.color9:       #467b9c
+
+! green
+*.color2:       #467b9c
+*.color10:      #559cc8
+
+! yellow
+*.color3:       #559cc8
+*.color11:      #64bff5
+
+! blue
+*.color4:       #64bff5
+*.color12:      #559cc8
+
+! magenta
+*.color5:       #45b484
+*.color13:      #45b484
+
+! cyan
+*.color6:       #dc7ed7
+*.color14:      #dc7ed7
+
+! white
+*.color7:       #f2f3f4
+*.color15:      #c5c8c6
+
+!! URxvt Appearance
+URxvt.internalBorder: 24
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.depth: 24
+URxvt.iso14755: false
+
+!! Copy Paste & Other Extensions
+URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
+URxvt.keysym.Shift-Control-C:    eval:selection_to_clipboard
+URxvt.keysym.Shift-Control-V:      eval:paste_clipboard
+URxvt.urlLauncher: zen
+URxvt.underlineURLs: true
+URxvt.urlButton: 1

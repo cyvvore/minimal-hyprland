@@ -1,0 +1,141 @@
+* {
+    border: 0;
+    border-radius: 0;
+    padding: 1px;
+    min-height: 0px;
+    font-size: 13px;
+    font-weight: normal;
+    font-family: Cozette;
+}
+
+window#waybar {
+	color: #cdd6f4;
+    background: rgba(255, 201, 201, 0); 
+    border: solid 1px #FFFFFF;
+    box-shadow: 0px 0px 3px 0px #ECECEC;
+}
+
+
+
+#workspaces button {
+	padding: 0px;
+	color: #5D5D5D;
+}
+
+#workspaces button.focused {
+	color: #FFFFFF;
+}
+
+#workspaces button.active {
+    color: #FFFFFF;
+}
+
+#workspaces button.urgent {
+    color: #DC7ED7;
+}
+
+#workspaces button:hover {
+	box-shadow: inherit;
+	text-shadow: inherit;
+}
+#workspaces button:hover {
+	padding: 0px;
+	background: #BE9292;
+}
+
+
+#clock,
+#memory,
+#cpu,
+#pulseaudio.microphone,
+#pulseaudio,
+#network,
+#custom-vpn,
+#cava,
+#custom-music,
+#hyprland-workspaces,
+#idle_inhibitor {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 4px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+}
+
+#custom-music {
+	color: #FFFFFF;
+	border-left: 0px;
+}
+
+#cava {
+	color: #FFFFFF;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+#network {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+
+}
+
+#custom-vpn {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 7px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+
+}
+
+#pulseaudio.microphone {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+}
+
+#pulseaudio {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+}
+
+#cpu {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+}
+
+#memory {
+	color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+}
+
+#clock {
+    color: #FFFFFF;
+    margin: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0px;
+    border-left: 1px solid #FFFFFF;
+    border-right: 0px solid #FFFFFF;
+}

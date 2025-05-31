@@ -1,0 +1,72 @@
+@define-color black #000000;
+@define-color white #FFFFFF;
+
+@keyframes glowIn {
+  from {
+    text-shadow: 0 0 0px rgba(255, 255, 255, 0);
+  }
+  to {
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+  }
+}
+
+* {
+  background-image: none;
+  transition: 20ms;
+  box-shadow: none;
+}
+
+window {
+  background-color: rgba(40, 40, 40, 0.5);
+  font-family: Wartext;
+  font-size: 30px;
+}
+
+grid {
+  border-radius: 1px;
+  margin: 200px 400px;
+  padding: 20px;
+}
+
+button {
+  border: 0;
+  outline: none;
+  margin: 10px;
+  padding: 0;
+  background: transparent center no-repeat;
+  background-size: 0px;
+  min-width: 100px;
+  min-height: 100px;
+  color: @white;
+  text-shadow: 0 0 0px rgba(255, 255, 255, 0);
+  animation: gradient_f 10s ease-in infinite;
+  transition:
+    color 0.3s ease,
+    box-shadow 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
+}
+
+button label {
+  padding: 0 0 40px 0;
+}
+
+button:hover {
+  color: @white;
+  background-color: transparent;
+  animation: glowIn 0.2s ease forwards;
+}
+
+button:hover#lock,
+button:hover#reboot,
+button:hover#logout,
+button:hover#shutdown {
+  border: 0;
+  border-radius: 0;
+}
+
+button:focus,
+button:active {
+  border-color: @black;
+  outline: none;
+}
+

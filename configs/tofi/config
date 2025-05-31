@@ -1,0 +1,20 @@
+width = 30%
+height = 35%
+border-width = 1
+outline-width = 0
+padding-top = 2%
+padding-left = 2%
+padding-right = 0%
+result-spacing = 10
+num-results = 14
+
+font = cozette
+font-size = 10
+
+prompt-text = " : "
+
+text-color = #FFFFFF
+prompt-color = #FFFFFF
+selection-color = #DC7ED7
+background-color = #000000
+border-color = #FFFFFF

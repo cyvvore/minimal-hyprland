@@ -1,0 +1,49 @@
+   [global]
+    monitor = 0
+	follow = mouse
+	font = cozette 10
+	offset = 10x10
+	separator_height = 0
+	padding = 20
+	horizontal_padding = 0
+	frame_width = 1
+	frame_color = "#FFFFFF"
+    min_icon_size = 0
+    max_icon_size = 64
+    sort = no
+    idle_threshold = 120
+    font = cozette 8
+    line_height = 4
+    markup = full
+    format = %s\n%b
+    alignment = center
+    show_age_threshold = 60
+    word_wrap = yes
+    ignore_newline = no
+    stack_duplicates = false
+    hide_duplicate_count = yes
+    show_indicators = no
+    icon_position = off
+
+    icon_theme = Irixium
+
+    title = Dunst
+    class = Dunst
+    
+    [urgency_low]
+    timeout = 4
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#559CC8"
+    
+    [urgency_normal]
+    timeout = 8
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#FFFFFF"
+    
+    [urgency_critical]
+    timeout = 0
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#DC7ED7"

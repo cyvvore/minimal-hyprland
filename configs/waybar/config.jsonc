@@ -1,0 +1,166 @@
+{
+    "layer": "top",
+    "position": "top",
+    "mode": "dock",
+    "margin-top": 5,
+    "margin-left": 7,
+    "margin-right": 7,
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+    "modules-left": ["cava","custom/music"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["custom/vpn", "network","pulseaudio#microphone","pulseaudio","cpu","memory","clock","idle_inhibitor"],
+
+	"hyprland/workspaces": {
+	  "format": "{icon}",
+	  "on-click": "activate",
+	  "format-icons": {
+	    "1": "♥",
+	    "2": "♡",
+	    "3": "♥",
+	    "4": "♡",
+	    "5": "♥",
+	  },
+	  "sort-by-number": true
+	},
+
+    "cava": {
+        "cava_config": "/home/dove/.config/cava/config",
+        "framerate": 60,
+        "autosens": 1,
+        "bars": 14,
+        "lower_cutoff_freq": 50,
+        "higher_cutoff_freq": 10000,
+        "method": "pipewire",
+        "source": "auto",
+        "stereo": false,
+        "reverse": false,
+        "bar_delimiter": 0,
+        "monstercat": false,
+        "waves": true,
+        "on-click": "playerctl play-pause",
+        "noise_reduction": 0.77,
+        "input_delay": 2,
+        "format-icons" : ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
+        "actions": {
+                   "on-click-right": "mode",
+                   }
+         },
+          
+    "custom/music": {
+      "format": "{}",
+      "color": "#000000",
+      "return-type": "json",
+      "exec": "~/.config/waybar/music.sh",
+      "on-click": "playerctl play-pause",
+      "on-scroll-up": "pamixer -i 1",
+      "on-scroll-down": "pamixer -d 1",
+    },
+    
+
+    "custom/music": {
+      "format": "{}",
+      "color": "#000000",
+      "return-type": "json",
+      "exec": "~/.config/waybar/music.sh",
+      "on-click": "playerctl play-pause",
+      "on-scroll-up": "pamixer -i 1",
+      "on-scroll-down": "pamixer -d 1",
+    },
+
+
+ "custom/vpn": {
+    "tooltip": false,
+    "format": "{}",
+    "exec": "~/.config/waybar/vpn_status.sh",
+    "interval": 1,
+    "on-click": "mullvad connect",
+    "on-click-right": "mullvad disconnect",
+    "on-click-middle": "mullvad-vpn"
+},
+
+    "tray": {
+        "icon-size": 13,
+        "spacing": 10
+    },
+
+   "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "<span color='#ff85ba'></span>",
+            "deactivated": ""
+        }
+    },
+
+    "pulseaudio": {
+        "format": "VOL {volume}",
+        "tooltip": false,
+        "format-muted": "Muted",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pamixer -i 1",
+        "on-scroll-down": "pamixer -d 1",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": ""
+        }
+    },
+
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "MIC {volume}",
+        "format-source-muted": "Muted",
+        "on-click": "pamixer --default-source -t",
+        "on-scroll-up": "pamixer --default-source -i 5",
+        "on-scroll-down": "pamixer --default-source -d 5",
+        "scroll-step": 5
+    },
+
+    "memory": {
+        "format": "MEM {used}",
+        "max-length": 10,
+        "tooltip": true,
+        "tooltip-format": "USED {percentage}%\nTOTAL {used:0.1f}GB/{total:0.1f}GB"
+    },
+
+    "cpu": {
+        "interval": 10,
+        "format": "CPU {load}",
+        "format-alt": "{icon0}{icon1}{icon2}{icon3}",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+    },
+
+    "clock": {
+        "format": "{:%I:%M %p  %a %d %b %Y}",
+        "interval": 1,
+        "rotate": 0,
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span color='#FFFFFF'><b>{}</b></span>",
+                "weekdays": "<span color='#FFFFFF'><b>{}</b></span>",
+                "today": "<span color='#FFFFFF'><b>{}</b></span>",
+                "days": "<span color='#FFFFFF'><b>{}</b></span>"
+            }
+        }
+    },
+
+    "network": {
+        "tooltip": true,
+        "format-wifi": "WIFI",
+        "format-ethernet": "ETH",
+        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
+        "format-linked": "ETH{ifname} (No IP)",
+        "format-disconnected": "<span foreground='#FF0000'>DIS</span>",
+        "tooltip-format-disconnected": "Disconnected",
+        "format-alt": "<span foreground='#00FF41'>⇣ {bandwidthDownBytes}</span>  <span foreground='#99ffdd'>⇡ {bandwidthUpBytes}</span>", 
+        "interval": 2        
+    }
+}
