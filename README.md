@@ -1,4 +1,4 @@
-![Screenshot 1](./awewa.png)
+![Screenshot 1](awewa.png)
 
 Current setup / Fork of simple hyprland (https://github.com/gaurav210233/simple-hyprland)
 
