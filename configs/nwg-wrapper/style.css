@@ -1,0 +1,13 @@
+* {
+  font-family: "cozette";
+  font-size: 11px;
+  color: grey;
+  background-color: transparent;
+}
+
+window {
+  margin: 0px;
+  padding: 10px;
+  background: transparent;
+}
+

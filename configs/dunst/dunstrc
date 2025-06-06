@@ -2,7 +2,7 @@
     monitor = 0
 	follow = mouse
 	font = cozette 10
-	offset = 10x10
+	offset = (6, 6)
 	separator_height = 0
 	padding = 20
 	horizontal_padding = 0
@@ -27,8 +27,8 @@
 
     icon_theme = Irixium
 
-    title = Dunst
-    class = Dunst
+    title = dunst
+    class = dunst
     
     [urgency_low]
     timeout = 4
