@@ -47,8 +47,8 @@ run_command "sudo pacman -S --noconfirm \
   dosfstools" "Install Bluetooth & Network"
 
 # System Utilities
-run_command "sudo pacman -S --noconfirm \
-  pacman-contrib parallel python-pyamdgpuinfo libnotify dim-screen tar \
+run_command "yay -S --sudoloop --noconfirm \
+  libnotify dim-screen tar \
   gvfs thunar thunar-volman thunar-archive-plugin file-roller tumbler ffmpegthumbnailer xorg-xrdb" "Install System Utilities"
 
 # Theming Utilities
