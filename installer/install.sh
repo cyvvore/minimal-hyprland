@@ -56,13 +56,13 @@ run_command "sudo pacman -S --noconfirm \
   nwg-look qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
 
 # Fonts
-run_command "sudo pacman -S --noconfirm \
+run_command "yay -S --sudoloop --noconfirm \
   cozette-otb ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code ttf-fira-mono ttf-fira-sans \
   ttf-firacode-nerd ttf-iosevka-nerd ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono \
   ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono" "Install Fonts"
 
 # AMD Drivers
-run_command "sudo pacman -S --noconfirm \
+run_command "yay -S --sudoloop --noconfirm \
   amd-ucode mesa mesa-utils lib32-mesa \
   vulkan-radeon lib32-vulkan-radeon \
   libva-mesa-driver libva-utils" "Install AMD Graphics Drivers"
