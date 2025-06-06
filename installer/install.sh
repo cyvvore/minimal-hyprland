@@ -35,19 +35,16 @@ run_command "yay -S --sudoloop --noconfirm \
   libportal libportal-gtk3 libportal-gtk4 xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
   hyprpolkitagent hyprcursor hyprutils hyprgraphics hyprland-qtutils" "Install Portals & Hypr Tools"
 
-# Remove conflicting Audio drivers
-run_command "sudo pacman -Rns --noconfirm pulseaudio pulseaudio-alsa jack2" "Remove conflicting audio packages"
-
 # Audio
 run_command "sudo pacman -S --noconfirm \
-  pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-pulse gst-plugin-pipewire wireplumber \
+  pipewire pipewire-alsa pipewire-audio pipewire-pulse gst-plugin-pipewire wireplumber \
   pavucontrol pamixer playerctl" "Install Audio Stack"
 
 #Bluetooth & Network
 run_command "sudo pacman -S --noconfirm \
   bluez bluez-utils blueman brightnessctl \
   networkmanager network-manager-applet \
-  dosfstools downgrade" "Install Bluetooth & Network"
+  dosfstools" "Install Bluetooth & Network"
 
 # System Utilities
 run_command "sudo pacman -S --noconfirm \
