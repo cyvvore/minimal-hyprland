@@ -14,75 +14,75 @@ run_command "sudo pacman -S --noconfirm --needed git pkgfile unzip wget base-dev
 
 # Install YAY if missing
 if ! command -v yay &>/dev/null; then
-  run_command "git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && rm -rf yay" "Install YAY"
+  run_command "git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd .. && rm -rf yay" "Install YAY"
 else
   log_message "YAY already installed."
 fi
 
 
-# --- HYPRLAND + ESSENTIALS ---
+
+# Hyprland & Essentials
 run_command "yay -S --sudoloop --noconfirm \
   hyprland dunst tofi waybar-cava cava swww wlogout grimblast-git slurp grim cliphist \
-  hyprlock hypridle hyprpicker" "Install Hyprland + Essentials"
+  hyprlock hypridle hyprpicker" "Install Hyprland & Essentials"
 
-# --- DISPLAY MANAGER (SDDM) ---
-run_command "yay -S --sudoloop --noconfirm \
+# Install SDDM
+run_command "sudo pacman -S --noconfirm \
   sddm qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects qt5-svg" "Install Display Manager"
 
-# --- PORTAL & POLKIT SUPPORT ---
+# Portal & Hypr tools
 run_command "yay -S --sudoloop --noconfirm \
   libportal libportal-gtk3 libportal-gtk4 xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
-  hyprpolkitagent hyprcursor hyprutils hyprgraphics hyprland-qtutils" "Install Portals + Hypr Tools"
+  hyprpolkitagent hyprcursor hyprutils hyprgraphics hyprland-qtutils" "Install Portals & Hypr Tools"
 
-# --- AUDIO & MEDIA CONTROL ---
-run_command "yay -S --sudoloop --noconfirm \
+# Remove conflicting Audio drivers
+run_command "sudo pacman -Rns --noconfirm pulseaudio pulseaudio-alsa jack2" "Remove conflicting audio packages"
+
+# Audio
+run_command "sudo pacman -S --noconfirm \
   pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-pulse gst-plugin-pipewire wireplumber \
   pavucontrol pamixer playerctl" "Install Audio Stack"
 
-# --- BLUETOOTH, NETWORK & POWER ---
-run_command "yay -S --sudoloop --noconfirm \
+#Bluetooth & Network
+run_command "sudo pacman -S --noconfirm \
   bluez bluez-utils blueman brightnessctl \
   networkmanager network-manager-applet \
-  opentabletdriver-git dosfstools downgrade trash-cli-git" "Install Bluetooth, Power & Network"
+  dosfstools downgrade" "Install Bluetooth & Network"
 
-# --- SYSTEM UTILS / BASE EXTRAS ---
-run_command "yay -S --sudoloop --noconfirm \
+# System Utilities
+run_command "sudo pacman -S --noconfirm \
   pacman-contrib parallel python-pyamdgpuinfo libnotify dim-screen tar \
   gvfs thunar thunar-volman thunar-archive-plugin file-roller tumbler ffmpegthumbnailer xorg-xrdb" "Install System Utilities"
 
-# --- FLATPAK SUPPORT ---
-run_command "yay -S --sudoloop --noconfirm flatpak" "Install Flatpak"
-run_command "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo" "Add Flathub Remote"
-
-# --- THEMING TOOLS ---
-run_command "yay -S --sudoloop --noconfirm \
+# Theming Utilities
+run_command "sudo pacman -S --noconfirm \
   nwg-look qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
 
-# --- FONTS ---
-run_command "yay -S --sudoloop --noconfirm \
+# Fonts
+run_command "sudo pacman -S --noconfirm \
   cozette-otb ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code ttf-fira-mono ttf-fira-sans \
   ttf-firacode-nerd ttf-iosevka-nerd ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono \
   ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono" "Install Fonts"
 
-# --- SECURITY / FIREWALL ---
-run_command "yay -S --sudoloop --noconfirm firewalld python-pyqt5 pythoncapng" "Install Firewall + Security"
-
-# --- AMD GRAPHICS DRIVERS ---
-run_command "yay -S --sudoloop --noconfirm \
+# AMD Drivers
+run_command "sudo pacman -S --noconfirm \
   amd-ucode mesa mesa-utils lib32-mesa \
   vulkan-radeon lib32-vulkan-radeon \
   libva-mesa-driver libva-utils" "Install AMD Graphics Drivers"
+  
+# Firewall
+run_command "sudo pacman -S --noconfirm firewalld python-pyqt5" "Install Firewall"  
 
-
-
-# Enable services
-run_command "systemctl enable sddm.service" "Enable SDDM"
-run_command "systemctl enable bluetooth && systemctl enable NetworkManager.service" "Enable Bluetooth & NetworkManager"
 
 # Flatpak setup
-run_command "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo" "Add Flathub"
+run_command "sudo pacman -S --noconfirm flatpak" "Install Flatpak"
+run_command "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo" "Add Flathub Remote"
 
-# Applying SDDM Theme
+# Enable services
+run_command "sudo systemctl enable sddm.service" "Enable SDDM"
+run_command "sudo systemctl enable bluetooth && sudo systemctl enable NetworkManager.service" "Enable Bluetooth & NetworkManager"
+
+# Apply SDDM Theme
 echo "Downloading WarGames theme..."
 wget -O wargames-sddm.zip "https://github.com/vinceliuice/Wargus-sddm/releases/download/2024-02-07/Wargus-sddm.zip"
 unzip -q wargames-sddm.zip -d wargames-theme
@@ -96,20 +96,19 @@ sudo tee /etc/sddm.conf > /dev/null <<EOF
 [Theme]
 Current=Wargus
 EOF
-
 rm -rf wargames-sddm.zip wargames-theme
 
 # Copy config files
 mkdir -p "$USER_HOME/.config"
 cp -r "$USER_HOME/minimal-hyprland/configs/hypr" "$USER_HOME/.config/"
-mkdir -p "$USER_HOME/Pictures/Wallpapers/OUT4PIZZA"
-cp -r "$USER_HOME/minimal-hyprland/configs/wallpaper" "$USER_HOME/Pictures/Wallpapers/OUT4PIZZA/"
-
 cp -r "$USER_HOME/minimal-hyprland/configs/dunst" "$USER_HOME/.config/"
 cp -r "$USER_HOME/minimal-hyprland/configs/waybar" "$USER_HOME/.config/"
 cp -r "$USER_HOME/minimal-hyprland/configs/tofi" "$USER_HOME/.config/"
 cp -r "$USER_HOME/minimal-hyprland/configs/wlogout" "$USER_HOME/.config/"
 cp -r "$USER_HOME/minimal-hyprland/configs/nwg-wrapper" "$USER_HOME/.config/"
+
+mkdir -p "$USER_HOME/Pictures/Wallpapers/OUT4PIZZA"
+cp -r "$USER_HOME/minimal-hyprland/configs/wallpaper" "$USER_HOME/Pictures/Wallpapers/OUT4PIZZA/"
 
 # Themes and icons
 sudo mkdir -p /usr/share/themes /usr/share/icons
