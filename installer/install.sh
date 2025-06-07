@@ -19,24 +19,6 @@ else
   log_message "YAY already installed."
 fi
 
-# Enable multilib
-enable_multilib() {
-  if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
-    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf >/dev/null
-    echo "[multilib] repo added to pacman.conf"
-  elif grep -q "^#\[multilib\]" /etc/pacman.conf; then
-    sudo sed -i '/^\[multilib\]/,/^Include/ s/^#//' /etc/pacman.conf
-    echo "[multilib] repo uncommented"
-  else
-    echo "[multilib] repo already enabled"
-  fi
-
-  sudo pacman -Sy --noconfirm
-}
-
-run_command "enable_multilib" "Enable multilib repo"
-
-
 # Hyprland & Essentials
 run_command "yay -S --sudoloop --noconfirm \
   hyprland dunst tofi waybar-cava cava swww wlogout grimblast-git slurp grim cliphist \
@@ -95,66 +77,48 @@ run_command "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/r
 run_command "sudo systemctl enable sddm.service" "Enable SDDM"
 run_command "sudo systemctl enable bluetooth && sudo systemctl enable NetworkManager.service" "Enable Bluetooth & NetworkManager"
 
-# Apply SDDM Theme
-echo "Downloading WarGames theme..."
-wget -O wargames-sddm.zip "https://github.com/vinceliuice/Wargus-sddm/releases/download/2024-02-07/Wargus-sddm.zip"
-unzip -q wargames-sddm.zip -d wargames-theme
-THEME_DIR="wargames-theme/Wargus"
-mkdir -p "$USER_HOME/.local/share/fonts"
-find "$THEME_DIR" -maxdepth 1 -iname "*.ttf" -exec cp -v {} "$USER_HOME/.local/share/fonts/" \;
-fc-cache -f
-sudo mkdir -p /usr/share/sddm/themes
-sudo cp -r "$THEME_DIR" /usr/share/sddm/themes/Wargus
+# Apply SDDM Theme from local backup
+run_command "echo 'Applying WarGames SDDM theme from local archive...'" "Prepare Theme"
 
-# Apply SDDM configuration with theme and fixes
-sudo tee /etc/sddm.conf > /dev/null <<EOF
-[Theme]
-Current=WarGames
+THEME_ARCHIVE="/home/$SUDO_USER/minimal-hyprland/configs/themes/WarGames.tar.gz"
+THEME_NAME="WarGames"
+THEME_DEST="/usr/share/sddm/themes/$THEME_NAME"
 
-[General]
-Numlock=on
-EOF
+# Unpack the theme
+run_command "sudo mkdir -p \"$THEME_DEST\"" "Create Theme Destination"
+run_command "sudo tar -xzf \"$THEME_ARCHIVE\" -C /usr/share/sddm/themes/" "Extract Theme Archive"
 
-# Fix ownership of theme, fonts, and config
-sudo chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME/.local"
-sudo chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME/.config"
-fc-cache -f
+# Install fonts if present
+run_command "mkdir -p \"/home/$SUDO_USER/.local/share/fonts\"" "Create Font Directory"
+run_command "find \"/usr/share/sddm/themes/$THEME_NAME\" -maxdepth 1 -iname '*.ttf' -exec cp -v {} \"/home/$SUDO_USER/.local/share/fonts/\" \;" "Copy Theme Fonts"
+run_command "fc-cache -f" "Rebuild Font Cache"
 
-# Ensure Hyprland session file is present
-sudo mkdir -p /usr/share/wayland-sessions
-sudo tee /usr/share/wayland-sessions/hyprland.desktop > /dev/null <<EOF
-[Desktop Entry]
-Name=Hyprland
-Comment=An intelligent dynamic tiling Wayland compositor
-Exec=Hyprland
-Type=Application
-DesktopNames=Hyprland
-EOF
-
+# Apply SDDM configuration
+run_command "bash -c 'echo -e \"[Theme]\nCurrent=$THEME_NAME\n\n[General]\nNumlock=on\" | sudo tee /etc/sddm.conf > /dev/null'" "Write SDDM Config"
 
 
 # Copy config files
-mkdir -p "$HOME/.config"
-cp -rv "$HOME/minimal-hyprland/configs/hypr" "$HOME/.config/"
-cp -rv "$HOME/minimal-hyprland/configs/dunst" "$HOME/.config/"
-cp -rv "$HOME/minimal-hyprland/configs/waybar" "$HOME/.config/"
-cp -rv "$HOME/minimal-hyprland/configs/tofi" "$HOME/.config/"
-cp -rv "$HOME/minimal-hyprland/configs/wlogout" "$HOME/.config/"
-cp -rv "$HOME/minimal-hyprland/configs/nwg-wrapper" "$HOME/.config/"
+run_command "mkdir -p /home/$SUDO_USER/.config"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/hypr /home/$SUDO_USER/.config/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/dunst /home/$SUDO_USER/.config/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/waybar /home/$SUDO_USER/.config/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/tofi /home/$SUDO_USER/.config/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wlogout /home/$SUDO_USER/.config/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/nwg-wrapper /home/$SUDO_USER/.config/"
 
-mkdir -p "$HOME/Pictures/Wallpapers/OUT4PIZZA"
-cp -rv "$HOME/minimal-hyprland/configs/wallpaper" "$HOME/Pictures/Wallpapers/OUT4PIZZA/"
+run_command "mkdir -p /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wallpaper /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA/"
 
 # Themes and icons
-sudo mkdir -p /usr/share/themes /usr/share/icons
-sudo unzip "$HOME/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip" -d /usr/share/themes/
-sudo unzip "$HOME/minimal-hyprland/configs/icons/BlackoutIcons.zip" -d /usr/share/icons/
-sudo tar -xvf "$HOME/minimal-hyprland/configs/icons/KDE-classic.tar.gz" -C /usr/share/icons/
+run_command "mkdir -p /usr/share/themes /usr/share/icons"
+run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip -d /usr/share/themes/"
+run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/icons/BlackoutIcons.zip -d /usr/share/icons/"
+run_command "tar -xvf /home/$SUDO_USER/minimal-hyprland/configs/icons/KDE-classic.tar.gz -C /usr/share/icons/"
 
 # QMMP and terminal themes
-mkdir -p "$HOME/.config/qmmp"
-cp -rv "$HOME/minimal-hyprland/configs/themes/qmmp" "$HOME/.config/qmmp/"
-cp -rv "$HOME/minimal-hyprland/configs/xrvt/.Xresources" "$HOME/"
+run_command "mkdir -p /home/$SUDO_USER/.config/qmmp"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/themes/qmmp /home/$SUDO_USER/.config/qmmp/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/xrvt/.Xresources  /home/$SUDO_USER/"
 
 # Theming instructions
 print_info "\nPost-installation instructions:"
