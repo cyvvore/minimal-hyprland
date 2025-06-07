@@ -16,7 +16,7 @@ run_command "sudo pacman -S --noconfirm --needed git pkgfile unzip wget base-dev
 run_command "sudo -u $SUDO_USER bash -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd .. && rm -rf yay'" "Install YAY"
 
 # Hyprland & Essentials
-run_command "yay -S --sudoloop --noconfirm \
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
   hyprland dunst tofi waybar-cava cava swww wlogout grimblast-git slurp grim cliphist \
   hyprlock hypridle hyprpicker" "Install Hyprland & Essentials"
 
@@ -25,7 +25,7 @@ run_command "sudo pacman -S --noconfirm \
   sddm qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects qt5-svg" "Install Display Manager"
 
 # Portal & Hypr tools
-run_command "yay -S --sudoloop --noconfirm \
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
   libportal libportal-gtk3 libportal-gtk4 xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
   hyprpolkitagent hyprcursor hyprutils hyprgraphics hyprland-qtutils" "Install Portals & Hypr Tools"
 
@@ -41,7 +41,7 @@ run_command "sudo pacman -S --noconfirm \
   dosfstools" "Install Bluetooth & Network"
 
 # System Utilities
-run_command "yay -S --sudoloop --noconfirm \
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm  rxvt-unicode \
   libnotify dim-screen tar \
   gvfs thunar thunar-volman thunar-archive-plugin file-roller tumbler ffmpegthumbnailer xorg-xrdb" "Install System Utilities"
 
@@ -50,13 +50,13 @@ run_command "sudo pacman -S --noconfirm \
   nwg-look qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
 
 # Fonts
-run_command "yay -S --sudoloop --noconfirm \
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
   cozette-otb ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code ttf-fira-mono ttf-fira-sans \
   ttf-firacode-nerd ttf-iosevka-nerd ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono \
   ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono" "Install Fonts"
 
 # AMD Drivers
-run_command "yay -S --sudoloop --noconfirm \
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
   amd-ucode mesa mesa-utils lib32-mesa \
   vulkan-radeon lib32-vulkan-radeon \
   libva-utils" 'Install AMD Graphics Drivers'
@@ -95,26 +95,28 @@ run_command "bash -c 'echo -e \"[Theme]\nCurrent=$THEME_NAME\n\n[General]\nNumlo
 
 # Copy config files
 run_command "mkdir -p /home/$SUDO_USER/.config"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/hypr /home/$SUDO_USER/.config/"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/dunst /home/$SUDO_USER/.config/"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/waybar /home/$SUDO_USER/.config/"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/tofi /home/$SUDO_USER/.config/"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wlogout /home/$SUDO_USER/.config/"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/nwg-wrapper /home/$SUDO_USER/.config/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/hypr /home/$SUDO_USER/.config/" "Hyprland theming"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/dunst /home/$SUDO_USER/.config/" "Dunst theming"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/waybar /home/$SUDO_USER/.config/" "Waybar theming"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/tofi /home/$SUDO_USER/.config/" "Tofi theming"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wlogout /home/$SUDO_USER/.config/" "Wlogout theming"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/nwg-wrapper /home/$SUDO_USER/.config/" "nwg-wrapper scripts"
 
 run_command "mkdir -p /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wallpaper /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wallpaper /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA/" "Applying Wallpaper"
 
 # Themes and icons
 run_command "mkdir -p /usr/share/themes /usr/share/icons"
-run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip -d /usr/share/themes/"
-run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/icons/BlackoutIcons.zip -d /usr/share/icons/"
-run_command "tar -xvf /home/$SUDO_USER/minimal-hyprland/configs/icons/KDE-classic.tar.gz -C /usr/share/icons/"
+run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip -d /usr/share/themes/" "GTK Theme"
+run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/icons/BlackoutIcons.zip -d /usr/share/icons/" "Icon Theme"
+run_command "tar -xvf /home/$SUDO_USER/minimal-hyprland/configs/icons/KDE-classic.tar.gz -C /usr/share/icons/" "Cursor Theme"
 
-# QMMP and terminal themes
+# QMMP
 run_command "mkdir -p /home/$SUDO_USER/.config/qmmp"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/themes/qmmp /home/$SUDO_USER/.config/qmmp/"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/xrvt/.Xresources  /home/$SUDO_USER/"
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/themes/qmmp /home/$SUDO_USER/.config/qmmp/" "QMMP Theming"
+
+# URXVT
+run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/xrvt/.Xresources  /home/$SUDO_USER/" "URXVT colors"
 
 # Theming instructions
 print_info "\nPost-installation instructions:"
