@@ -13,11 +13,8 @@ run_command "sudo pacman -Syyu --noconfirm" "Update system"
 run_command "sudo pacman -S --noconfirm --needed git pkgfile unzip wget base-devel" "Install base tools"
 
 # Install YAY if missing
-if ! command -v yay &>/dev/null; then
-  run_command "git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd .. && rm -rf yay" "Install YAY"
-else
-  log_message "YAY already installed."
-fi
+run_command "git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd .. && rm -rf yay" "Install YAY"
+
 
 # Hyprland & Essentials
 run_command "yay -S --sudoloop --noconfirm \
