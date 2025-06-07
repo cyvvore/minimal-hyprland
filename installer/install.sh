@@ -14,7 +14,7 @@ print_info "\nStarting prerequisites setup..."
 run_command "sudo pacman -Syyu --noconfirm" "Update system"
 
 # Install YAY 
-run_command "sudo -u $SUDO_USER bash -c 'pacman -S --noconfirm --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg --noconfirm -si'" "Install YAY"
+run_command "sudo -u $SUDO_USER bash -c 'command -v yay || git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'" "Install YAY"
 
 # Install Fonts
 run_command "pacman -S --noconfirm ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-firacode-nerd ttf-iosevka-nerd ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono" "Installing Fonts & Symbols"
