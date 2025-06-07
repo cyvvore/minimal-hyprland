@@ -105,11 +105,31 @@ find "$THEME_DIR" -maxdepth 1 -iname "*.ttf" -exec cp -v {} "$USER_HOME/.local/s
 fc-cache -f
 sudo mkdir -p /usr/share/sddm/themes
 sudo cp -r "$THEME_DIR" /usr/share/sddm/themes/Wargus
+
+# Apply SDDM configuration with theme and fixes
 sudo tee /etc/sddm.conf > /dev/null <<EOF
 [Theme]
 Current=Wargus
+
+[General]
+Numlock=on
 EOF
-rm -rf wargames-sddm.zip wargames-theme
+
+# Fix ownership of theme, fonts, and config
+sudo chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME/.local"
+sudo chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME/.config"
+fc-cache -f
+
+# Ensure Hyprland session file is present
+sudo mkdir -p /usr/share/wayland-sessions
+sudo tee /usr/share/wayland-sessions/hyprland.desktop > /dev/null <<EOF
+[Desktop Entry]
+Name=Hyprland
+Comment=An intelligent dynamic tiling Wayland compositor
+Exec=Hyprland
+Type=Application
+DesktopNames=Hyprland
+EOF
 
 # Copy config files
 mkdir -p "$USER_HOME/.config"
