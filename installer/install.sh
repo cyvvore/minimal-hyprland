@@ -65,8 +65,9 @@ run_command "yay -S --sudoloop --noconfirm \
 run_command "yay -S --sudoloop --noconfirm \
   amd-ucode mesa mesa-utils lib32-mesa \
   vulkan-radeon lib32-vulkan-radeon \
-  libva-mesa-driver libva-utils" "Install AMD Graphics Drivers"
-  
+  libva-mesa-driver lib32-libva-mesa-driver \
+  libva-utils" 'Install AMD Graphics Drivers'
+
 # Firewall
 run_command "sudo pacman -S --noconfirm firewalld python-pyqt5" "Install Firewall"  
 
@@ -109,9 +110,9 @@ cp -r "$USER_HOME/minimal-hyprland/configs/wallpaper" "$USER_HOME/Pictures/Wallp
 
 # Themes and icons
 sudo mkdir -p /usr/share/themes /usr/share/icons
-tar -xvf "$USER_HOME/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip" -C /usr/share/themes/
-tar -xvf "$USER_HOME/minimal-hyprland/configs/icons/BlackoutIcons.zip" -C /usr/share/icons/
-tar -xvf "$USER_HOME/minimal-hyprland/configs/icons/KDE-classic.tar.gz" -C /usr/share/icons/
+sudo unzip "$HOME/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip" -d /usr/share/themes/
+sudo unzip "$HOME/minimal-hyprland/configs/icons/BlackoutIcons.zip" -d /usr/share/icons/
+sudo tar -xvf "$HOME/minimal-hyprland/configs/icons/KDE-classic.tar.gz" -C /usr/share/icons/
 
 # QMMP and terminal themes
 mkdir -p "$USER_HOME/.config/qmmp"
