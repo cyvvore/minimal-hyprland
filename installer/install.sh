@@ -38,7 +38,7 @@ run_command "sudo systemctl enable bluetooth && sudo systemctl enable NetworkMan
 run_command "sudo pacman -S --noconfirm brightnessctl qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects qt5-svg" "Install SDDM Dependencies"
 
 # Install & Enable SDDM
-run_command "pacman -S --noconfirm sddm && systemctl enable sddm.service" "Install & Enabble SDDM"
+run_command "pacman -S --noconfirm sddm && systemctl enable sddm.service" "Install & Enable SDDM"
 
 # Install Terminal
 run_command "pacman -S --noconfirm rxvt-unicode kitty" "Install Terminal"
@@ -58,7 +58,7 @@ run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
   libportal libportal-gtk3 libportal-gtk4 xdg-desktop-portal-gtk" "Polkit Agents"
 
 #QT Support on Wayland
-run_command "sudo pacman -S --noconfirm \ qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
 
 # Utilities
 run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm dim-screen \ nwg-look swww grimblast-git slurp grim cliphist libnotify xorg-xrdb" "Install Utilities"
