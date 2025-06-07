@@ -1,77 +1,89 @@
 #!/bin/bash
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "$SCRIPT_DIR/helper.sh"
-
-USER_HOME="$(eval echo ~${SUDO_USER})"
-
-log_message "Installation started for prerequisites section"
-print_info "\nStarting prerequisites setup..."
-
-# Ensure core tools
+# -------PREREQUISITES---------
+# Update System
 run_command "sudo pacman -Syyu --noconfirm" "Update system"
-run_command "sudo pacman -S --noconfirm --needed git pkgfile unzip wget base-devel" "Install base tools"
 
-# Install YAY if missing
-run_command "sudo -u $SUDO_USER bash -c 'git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm && cd .. && rm -rf yay'" "Install YAY"
+# Install YAY 
+run_command "sudo -u $SUDO_USER bash -c 'pacman -S --noconfirm --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg --noconfirm -si'" "Install YAY"
 
-# Hyprland & Essentials
-run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
-  hyprland dunst tofi waybar-cava cava swww wlogout grimblast-git slurp grim cliphist \
-  hyprlock hypridle hyprpicker" "Install Hyprland & Essentials"
+# Install Fonts
+run_command "pacman -S --noconfirm ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-firacode-nerd ttf-iosevka-nerd ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono" "Installing Fonts & Symbols"
 
-# Install SDDM
-run_command "sudo pacman -S --noconfirm \
-  sddm qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects qt5-svg" "Install Display Manager"
-
-# Portal & Hypr tools
-run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
-  libportal libportal-gtk3 libportal-gtk4 xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
-  hyprpolkitagent hyprcursor hyprutils hyprgraphics hyprland-qtutils" "Install Portals & Hypr Tools"
+# Installing Bitmap Font
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm cozette-otb" "Install Bitmap Font"
 
 # Audio
-run_command "sudo pacman -S --noconfirm \
-  pipewire pipewire-alsa pipewire-audio pipewire-pulse gst-plugin-pipewire wireplumber \
-  pavucontrol pamixer playerctl" "Install Audio Stack"
-
-#Bluetooth & Network
-run_command "sudo pacman -S --noconfirm \
-  bluez bluez-utils blueman brightnessctl \
-  networkmanager network-manager-applet \
-  dosfstools" "Install Bluetooth & Network"
-
-# System Utilities
-run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm  rxvt-unicode \
-  libnotify dim-screen tar \
-  gvfs thunar thunar-volman thunar-archive-plugin file-roller tumbler ffmpegthumbnailer xorg-xrdb" "Install System Utilities"
-
-# Theming Utilities
-run_command "sudo pacman -S --noconfirm \
-  nwg-look qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
-
-# Fonts
-run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
-  cozette-otb ttf-cascadia-code-nerd ttf-cascadia-mono-nerd ttf-fira-code ttf-fira-mono ttf-fira-sans \
-  ttf-firacode-nerd ttf-iosevka-nerd ttf-iosevkaterm-nerd ttf-jetbrains-mono-nerd ttf-jetbrains-mono \
-  ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono" "Install Fonts"
+run_command "sudo pacman -S --noconfirm pipewire pipewire-alsa pipewire-audio pipewire-pulse gst-plugin-pipewire wireplumber pavucontrol pamixer playerctl" "Install Audio"
 
 # AMD Drivers
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm amd-ucode mesa mesa-utils lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-utils" "Install AMD Graphics Drivers"
+
+#Bluetooth & Network
+run_command "sudo pacman -S --noconfirm bluez bluez-utils blueman networkmanager network-manager-applet dosfstools" "Install Bluetooth & Network"
+
+# Enable Bluetooth & Network
+run_command "sudo systemctl enable bluetooth && sudo systemctl enable NetworkManager.service" "Enable Bluetooth & NetworkManager"
+
+# SDDM Dependencies
+run_command "sudo pacman -S --noconfirm brightnessctl qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects qt5-svg" "Install SDDM Dependencies"
+
+# Install & Enable SDDM
+run_command "pacman -S --noconfirm sddm && systemctl enable sddm.service" "Install & Enabble SDDM"
+
+# Install Terminal
+run_command "pacman -S --noconfirm rxvt-unicode kitty" "Install Terminal"
+
+# Install Core tools
+run_command "pacman -S --noconfirm tar unzip" "Install Core tools"
+
+
+
+# -----HYPRLAND---------
+
+# Install Hyprland
+run_command "pacman -S --noconfirm hyprland hyprlock hypridle hyprpicker hyprpolkitagent hyprcursor hyprutils hyprgraphics hyprland-qtutils xdg-desktop-portal-hyprland" "Install Hyprland & Hyprland Ecosystem"
+
+# Polkit Agents
 run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm \
-  amd-ucode mesa mesa-utils lib32-mesa \
-  vulkan-radeon lib32-vulkan-radeon \
-  libva-utils" 'Install AMD Graphics Drivers'
+  libportal libportal-gtk3 libportal-gtk4 xdg-desktop-portal-gtk" "Polkit Agents"
+
+#QT Support on Wayland
+run_command "sudo pacman -S --noconfirm \ qt5ct qt6ct kvantum kvantum-qt5 qt5-wayland qt6-wayland" "Install Theming Utilities"
+
+# Utilities
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm dim-screen \ nwg-look swww grimblast-git slurp grim cliphist libnotify xorg-xrdb" "Install Utilities"
+
+
+# -----SYSTEM UTILITIES-------
+
+# Waybar
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm waybar-cava cava" "Install Waybar"
+
+# Dunst
+run_command "pacman -S --noconfirm dunst" "Install Dunst"
+
+# Tofi
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm tofi" "Install Tofi"
+
+# Wlogout
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm wlogout" "Install Wlogout"
+
+# File Manager
+run_command "sudo -u $SUDO_USER yay -S --sudoloop --noconfirm gvfs thunar thunar-volman thunar-archive-plugin file-roller tumbler ffmpegthumbnailer xorg-xrdb" "Install Thunar"
 
 # Firewall
 run_command "sudo pacman -S --noconfirm firewalld python-pyqt5" "Install Firewall"  
 
 
+# -----APPS-------
+
 # Flatpak setup
 run_command "sudo pacman -S --noconfirm flatpak" "Install Flatpak"
-run_command "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo" "Add Flathub Remote"
+run_command "sudo -u $SUDO_USER flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo" "Add Flathub Remote for User"
 
-# Enable services
-run_command "sudo systemctl enable sddm.service" "Enable SDDM"
-run_command "sudo systemctl enable bluetooth && sudo systemctl enable NetworkManager.service" "Enable Bluetooth & NetworkManager"
+
+# -----THEMING-------
 
 # Apply SDDM Theme from local backup
 run_command "echo 'Applying WarGames SDDM theme from local archive...'" "Prepare Theme"
@@ -122,8 +134,10 @@ run_command "cp -rv $REPO_DIR/configs/themes/qmmp $USER_HOME/.config/qmmp/" "QMM
 # URXVT
 run_command "cp -rv $REPO_DIR/configs/xrvt/.Xresources $USER_HOME/" "URXVT colors"
 
+# Fix File Ownership
 run_command "chown -R $SUDO_USER:$SUDO_USER $USER_HOME" "Fix file ownership"
 
+# -----END-------
 
 # Theming instructions
 print_info "\nPost-installation instructions:"
@@ -134,4 +148,5 @@ echo "   - Open 'qt6ct' to set the icon theme"
 
 print_bold_blue "\n Congratulations! Your Simple Hyprland setup is complete!"
 echo "------------------------------------------------------------------------"
+
 
