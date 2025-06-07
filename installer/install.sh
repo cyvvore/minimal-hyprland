@@ -19,6 +19,22 @@ else
   log_message "YAY already installed."
 fi
 
+# Enable multilib
+enable_multilib() {
+  if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf >/dev/null
+    echo "[multilib] repo added to pacman.conf"
+  elif grep -q "^#\[multilib\]" /etc/pacman.conf; then
+    sudo sed -i '/^\[multilib\]/,/^Include/ s/^#//' /etc/pacman.conf
+    echo "[multilib] repo uncommented"
+  else
+    echo "[multilib] repo already enabled"
+  fi
+
+  sudo pacman -Sy --noconfirm
+}
+
+run_command "enable_multilib" "Enable multilib repo"
 
 
 # Hyprland & Essentials
@@ -65,7 +81,6 @@ run_command "yay -S --sudoloop --noconfirm \
 run_command "yay -S --sudoloop --noconfirm \
   amd-ucode mesa mesa-utils lib32-mesa \
   vulkan-radeon lib32-vulkan-radeon \
-  libva-mesa-driver lib32-libva-mesa-driver \
   libva-utils" 'Install AMD Graphics Drivers'
 
 # Firewall
