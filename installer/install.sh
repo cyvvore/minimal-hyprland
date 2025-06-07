@@ -94,29 +94,36 @@ run_command "bash -c 'echo -e \"[Theme]\nCurrent=$THEME_NAME\n\n[General]\nNumlo
 
 
 # Copy config files
-run_command "mkdir -p /home/$SUDO_USER/.config"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/hypr /home/$SUDO_USER/.config/" "Hyprland theming"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/dunst /home/$SUDO_USER/.config/" "Dunst theming"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/waybar /home/$SUDO_USER/.config/" "Waybar theming"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/tofi /home/$SUDO_USER/.config/" "Tofi theming"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wlogout /home/$SUDO_USER/.config/" "Wlogout theming"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/nwg-wrapper /home/$SUDO_USER/.config/" "nwg-wrapper scripts"
+REPO_DIR="/home/$SUDO_USER/minimal-hyprland"
+USER_HOME="/home/$SUDO_USER"
 
-run_command "mkdir -p /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/wallpaper /home/$SUDO_USER/Pictures/Wallpapers/OUT4PIZZA/" "Applying Wallpaper"
+run_command "mkdir -p $USER_HOME/.config"
+run_command "cp -rv $REPO_DIR/configs/hypr $USER_HOME/.config/" "Hyprland theming"
+run_command "cp -rv $REPO_DIR/configs/dunst $USER_HOME/.config/" "Dunst theming"
+run_command "cp -rv $REPO_DIR/configs/waybar $USER_HOME/.config/" "Waybar theming"
+run_command "cp -rv $REPO_DIR/configs/tofi $USER_HOME/.config/" "Tofi theming"
+run_command "cp -rv $REPO_DIR/configs/wlogout $USER_HOME/.config/" "Wlogout theming"
+run_command "cp -rv $REPO_DIR/configs/nwg-wrapper $USER_HOME/.config/" "nwg-wrapper scripts"
+
+# Wallpaper
+run_command "mkdir -p $USER_HOME/Pictures/Wallpapers/OUT4PIZZA"
+run_command "cp -rv $REPO_DIR/configs/wallpaper $USER_HOME/Pictures/Wallpapers/OUT4PIZZA/" "Applying Wallpaper"
 
 # Themes and icons
 run_command "mkdir -p /usr/share/themes /usr/share/icons"
-run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/themes/B00merang-Blackout-master.zip -d /usr/share/themes/" "GTK Theme"
-run_command "unzip /home/$SUDO_USER/minimal-hyprland/configs/icons/BlackoutIcons.zip -d /usr/share/icons/" "Icon Theme"
-run_command "tar -xvf /home/$SUDO_USER/minimal-hyprland/configs/icons/KDE-classic.tar.gz -C /usr/share/icons/" "Cursor Theme"
+run_command "unzip $REPO_DIR/configs/themes/B00merang-Blackout-master.zip -d /usr/share/themes/" "GTK Theme"
+run_command "unzip $REPO_DIR/configs/icons/BlackoutIcons.zip -d /usr/share/icons/" "Icon Theme"
+run_command "tar -xvf $REPO_DIR/configs/icons/KDE-classic.tar.gz -C /usr/share/icons/" "Cursor Theme"
 
 # QMMP
-run_command "mkdir -p /home/$SUDO_USER/.config/qmmp"
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/themes/qmmp /home/$SUDO_USER/.config/qmmp/" "QMMP Theming"
+run_command "mkdir -p $USER_HOME/.config/qmmp"
+run_command "cp -rv $REPO_DIR/configs/themes/qmmp $USER_HOME/.config/qmmp/" "QMMP Theming"
 
 # URXVT
-run_command "cp -rv /home/$SUDO_USER/minimal-hyprland/configs/xrvt/.Xresources  /home/$SUDO_USER/" "URXVT colors"
+run_command "cp -rv $REPO_DIR/configs/xrvt/.Xresources $USER_HOME/" "URXVT colors"
+
+run_command "chown -R $SUDO_USER:$SUDO_USER $USER_HOME" "Fix file ownership"
+
 
 # Theming instructions
 print_info "\nPost-installation instructions:"
